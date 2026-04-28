@@ -3,8 +3,6 @@ from __future__ import annotations
 import json
 from textwrap import shorten
 
-from pydantic import BaseModel, Field
-
 from leads.enrichment.llm.client import call_gemini
 
 _SYSTEM_PROMPT = """You are a sales assistant for EliseAI, which sells conversational AI to multifamily property management companies. EliseAI automates leasing follow-up, maintenance intake, and resident communication — helping operators respond faster and handle more volume without adding headcount.
@@ -15,24 +13,12 @@ Tailor the pitch to the company's profile:
 - Company with recent growth news: lead with scaling operations without proportional headcount growth
 - High renter-occupied market (>60% renter share): lead with leasing speed and response time in a competitive rental environment
 
-Write a short outbound sales email and a set of insights based on the lead profile provided.
-Return valid JSON only."""
+Write a short outbound sales email under 120 words. Return plain text only — no JSON, no markdown."""
 
 _USER_TEMPLATE = """Lead profile:
 {profile_json}
 
-Return JSON only:
-{{
-  "email_subject": "<subject line>",
-  "email_body": "<email body, plain text, under 120 words>",
-  "insights": ["<4-6 short bullet facts about this lead>"]
-}}"""
-
-
-class GeneratedOutput(BaseModel):
-    email_subject: str = Field(min_length=1)
-    email_body: str = Field(min_length=1)
-    insights: list[str] = Field(min_length=1)
+Write the email body only. Plain text, under 120 words."""
 
 
 def _resolved_profile(parsed_lead: dict, enrichment: dict, score: dict) -> dict:
@@ -134,14 +120,17 @@ async def generate_email_and_insights(
     score: dict,
 ) -> dict:
     profile = _resolved_profile(parsed_lead, enrichment, score)
-    result = await call_gemini(
+    company = parsed_lead.get("company") or "your company"
+
+    body = await call_gemini(
         system=_SYSTEM_PROMPT,
         user=_USER_TEMPLATE.format(profile_json=json.dumps(profile, indent=2, sort_keys=True)),
-        response_model=GeneratedOutput,
-        max_tokens=1024,
+        response_model=None,
+        max_tokens=512,
     )
+
     return {
-        "email_subject": str(result["email_subject"]).strip(),
-        "email_body": str(result["email_body"]).strip(),
-        "insights": [str(i).strip() for i in result["insights"] if str(i).strip()],
+        "email_subject": f"EliseAI + {company}",
+        "email_body": str(body).strip(),
+        "insights": _fallback_insights(parsed_lead, enrichment, score),
     }
