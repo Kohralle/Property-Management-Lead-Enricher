@@ -113,7 +113,7 @@ The current model is a true 100-point deterministic score. No normalization step
 
 | Bucket | Max Points | What It Measures |
 | --- | ---: | --- |
-| Company Fit | 52 | Grounded company classification: type, property-management relevance, multifamily relevance, scale, email-domain signal, confidence adjustment |
+| Company Fit | 52 | Grounded company classification: type, property-management relevance, multifamily relevance, scale, confidence adjustment |
 | News Activity | 18 | At least 3 relevant articles out of 10, or 30% if fewer than 10; plus growth-language signals |
 | Contact Quality | 12 | Whether the contact uses a corporate email domain instead of a free inbox |
 | Property Context | 18 | Tract renter share > 40%, local population > 4k, median gross rent > $1,500 |

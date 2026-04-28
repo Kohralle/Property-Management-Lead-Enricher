@@ -50,10 +50,9 @@ _COMPANY_TYPE_BASE = {
     "unrelated": 0,
     "unknown": 6,
 }
-_PROPERTY_MGMT_BONUS = {"high": 5, "medium": 3, "low": 0, "unknown": 0}
+_PROPERTY_MGMT_BONUS = {"high": 8, "medium": 3, "low": 0, "unknown": 0}
 _MULTIFAMILY_BONUS = {"high": 3, "medium": 2, "low": 0, "unknown": 0}
 _SCALE_BONUS = {"large": 3, "medium": 2, "small": 1, "unknown": 0}
-_EMAIL_DOMAIN_BONUS = {"corporate": 3, "property_specific": 1, "generic": -5, "unknown": 0}
 
 _PROMPT_TEMPLATE = """You are evaluating whether a company is a good property-management lead.
 
@@ -338,7 +337,6 @@ def compute_company_score(classification: dict) -> dict:
     property_management_relevance = _coerce_enum(classification.get("property_management_relevance"), _RELEVANCE_VALUES, "unknown")
     multifamily_relevance = _coerce_enum(classification.get("multifamily_relevance"), _RELEVANCE_VALUES, "unknown")
     scale_signal = _coerce_enum(classification.get("scale_signal"), _SCALE_VALUES, "unknown")
-    email_domain_type = _coerce_enum(classification.get("email_domain_type"), _EMAIL_DOMAIN_TYPE_VALUES, "unknown")
     confidence = _normalize_confidence(classification.get("confidence"))
 
     raw_score = (
@@ -346,7 +344,6 @@ def compute_company_score(classification: dict) -> dict:
         + _PROPERTY_MGMT_BONUS[property_management_relevance]
         + _MULTIFAMILY_BONUS[multifamily_relevance]
         + _SCALE_BONUS[scale_signal]
-        + _EMAIL_DOMAIN_BONUS[email_domain_type]
     )
     raw_score = max(0, min(52, raw_score))
     final_score = int(raw_score * confidence)
@@ -370,7 +367,6 @@ def compute_company_score(classification: dict) -> dict:
             {"rule": f"property_management_relevance_{property_management_relevance}", "fired": property_management_relevance != "low" and property_management_relevance != "unknown", "points": _PROPERTY_MGMT_BONUS[property_management_relevance]},
             {"rule": f"multifamily_relevance_{multifamily_relevance}", "fired": multifamily_relevance != "low" and multifamily_relevance != "unknown", "points": _MULTIFAMILY_BONUS[multifamily_relevance]},
             {"rule": f"scale_signal_{scale_signal}", "fired": scale_signal != "unknown", "points": _SCALE_BONUS[scale_signal]},
-            {"rule": f"email_domain_bonus_{email_domain_type}", "fired": email_domain_type != "unknown", "points": _EMAIL_DOMAIN_BONUS[email_domain_type]},
             {"rule": "confidence_multiplier", "fired": True, "points": final_score - raw_score, "confidence": confidence},
         ],
     }

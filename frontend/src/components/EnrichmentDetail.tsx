@@ -778,17 +778,14 @@ function maxPointsForRule(rule: string, points: number): number | null {
   }
 
   const exactMatches: Record<string, number> = {
-    property_management_relevance_high: 5,
+    property_management_relevance_high: 8,
     property_management_relevance_medium: 3,
     multifamily_relevance_high: 3,
     multifamily_relevance_medium: 2,
     scale_signal_large: 3,
     scale_signal_medium: 2,
     scale_signal_small: 1,
-    email_domain_type_corporate: 12,       // contact quality bucket
-    email_domain_bonus_corporate: 3,       // company fit bucket
-    email_domain_bonus_property_specific: 1,
-    email_domain_bonus_generic: 5,
+    email_domain_type_corporate: 12,
     recent_relevant_news: 8,
     growth_signal_news: 10,
     renter_pct_over_40: 6,
