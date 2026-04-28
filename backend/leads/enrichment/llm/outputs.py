@@ -132,5 +132,5 @@ async def generate_email_and_insights(
     return {
         "email_subject": f"EliseAI + {company}",
         "email_body": str(body).strip(),
-        "insights": _fallback_insights(parsed_lead, enrichment, score),
+        "insights": build_fallback_email_and_insights(parsed_lead, enrichment, score)["insights"],
     }
