@@ -24,23 +24,22 @@ Lead profile:
 Scoring context:
 {score_json}
 
-Instructions for the email:
+Generate components, not the full final email.
+
+Instructions:
 - Calibrate tone using the score and tier:
   - A-tier: high-effort, personalized, sharper relevance
   - B-tier: personalized but moderate effort
   - C-tier: lighter touch
   - D-tier: still professional, but minimal stretch
-- Start with a brief weather or market opener in exactly 1 sentence.
-- Reference one specific company-relevant fact from the enrichment, such as a news item, company background, or local operating context.
-- Pitch EliseAI in 1-2 sentences tied to the lead's likely operating or leasing pain.
-- Close with a low-friction CTA asking about 15 minutes next week.
-- Keep the full email body under 120 words total.
-- The email must include at least two concrete details from the profile across the opener, fact reference, or pain point.
-- Use the company name naturally at least once.
+- OPENER must be exactly 1 sentence and use weather or market context.
+- FACT must be exactly 1 sentence and reference one specific company-relevant fact from the enrichment.
+- PAIN must be exactly 1 sentence and tie EliseAI to a likely operating, leasing, maintenance, or resident-communication pain.
+- CTA must be exactly 1 sentence and ask about 15 minutes next week.
+- Across OPENER, FACT, and PAIN, include at least two concrete details from the profile.
+- Use the company name naturally at least once somewhere in FACT or PAIN.
 - If relevant news exists, prefer that over generic company description.
 - If no relevant news exists, use grounded company research or geo-demographic context instead of inventing a hook.
-- Vary sentence length. One sentence can be short. Another can carry more detail.
-- It is fine to sound slightly conversational as long as the note stays professional.
 - Favor crisp specifics over polished marketing language.
 - Use plainspoken phrasing a human AE would actually send.
 - Avoid generic filler such as:
@@ -52,14 +51,15 @@ Instructions for the email:
   - "touching base"
 - Avoid sounding overly polished, overly cheerful, or copy-pasted.
 - Avoid stacked buzzwords, canned compliments, and empty personalization.
-- Do not use vague claims like "could help streamline operations" unless you tie them to a specific likely pain from the profile.
 - Do not mention data sources, enrichment, scoring, or that an AI generated the draft.
-- If the available facts are thin, keep the note simple rather than making the personalization feel forced.
-- The goal is a believable, specific outbound email that sounds like it was written by a thoughtful human in one pass.
+- If the available facts are thin, keep the lines simple rather than forcing personalization.
 
 Return exactly this format:
 EMAIL_SUBJECT: <subject line>
-EMAIL_BODY: <single-paragraph email body with no line breaks>
+OPENER: <one sentence>
+FACT: <one sentence>
+PAIN: <one sentence>
+CTA: <one sentence>
 
 Do not return JSON.
 Do not use markdown code fences.
@@ -68,8 +68,9 @@ Do not use markdown code fences.
 _FORMAT_RETRY_REMINDER = """
 
 IMPORTANT:
-- Follow the exact two-section format.
-- Keep EMAIL_BODY on one line only.
+- Follow the exact five-section format.
+- Every section must be present exactly once.
+- OPENER, FACT, PAIN, and CTA must each be one sentence.
 - Do not return JSON.
 - Do not add commentary before or after the sections.
 """
@@ -78,6 +79,52 @@ IMPORTANT:
 class GeneratedEmail(BaseModel):
     email_subject: str = Field(min_length=3)
     email_body: str = Field(min_length=40)
+
+
+class GeneratedComponents(BaseModel):
+    email_subject: str = Field(min_length=3)
+    opener: str = Field(min_length=8)
+    fact: str = Field(min_length=12)
+    pain: str = Field(min_length=12)
+    cta: str = Field(min_length=12)
+
+
+def _validate_email_quality(parsed_lead: dict, payload: dict) -> dict:
+    subject = str(payload.get("email_subject") or "").strip()
+    body = str(payload.get("email_body") or "").strip()
+    company = str(parsed_lead.get("company") or "").strip()
+    word_count = len(body.split())
+
+    sentence_markers = body.count(".") + body.count("!") + body.count("?")
+    has_cta = any(
+        phrase in body.lower()
+        for phrase in (
+            "15 minutes",
+            "15 minute",
+            "next week",
+            "open to",
+            "worth a conversation",
+            "compare notes",
+            "chat next week",
+        )
+    )
+    mentions_company = not company or company.lower() in body.lower() or company.lower() in subject.lower()
+
+    if len(body) < 80:
+        raise ValueError("Generated email body is too short.")
+    if sentence_markers < 2:
+        raise ValueError("Generated email body is too thin.")
+    if word_count > 120:
+        raise ValueError("Generated email body is too long.")
+    if not has_cta:
+        raise ValueError("Generated email body is missing a CTA.")
+    if not mentions_company:
+        raise ValueError("Generated email does not mention the company.")
+
+    return {
+        "email_subject": subject,
+        "email_body": body,
+    }
 
 
 def _first_sentence(text: str) -> str:
@@ -179,21 +226,67 @@ def _fallback_insights(parsed_lead: dict, enrichment: dict, score: dict) -> list
     return build_fallback_email_and_insights(parsed_lead, enrichment, score)["insights"]
 
 
-def _parse_tagged_output(text: str) -> dict:
+def _parse_component_output(text: str) -> dict:
     cleaned = (text or "").strip()
     cleaned = re.sub(r"^```(?:text)?\s*", "", cleaned)
     cleaned = re.sub(r"\s*```$", "", cleaned).strip()
+    normalized = cleaned.replace("\r\n", "\n")
 
-    subject_match = re.search(r"^EMAIL_SUBJECT:\s*(.+)$", cleaned, re.MULTILINE)
-    body_match = re.search(r"^EMAIL_BODY:\s*(.+)$", cleaned, re.MULTILINE)
-    if not subject_match or not body_match:
-        raise ValueError("Missing EMAIL_SUBJECT or EMAIL_BODY section.")
+    def match_field(*names: str) -> str:
+        pattern = rf"(?:^|\n)\s*(?:{'|'.join(names)})\s*:\s*(.+?)(?=\n\s*(?:EMAIL_SUBJECT|SUBJECT|OPENER|FACT|PAIN|CTA)\s*:|\Z)"
+        match = re.search(pattern, normalized, re.IGNORECASE | re.DOTALL)
+        return " ".join(match.group(1).split()).strip() if match else ""
 
     payload = {
-        "email_subject": subject_match.group(1).strip(),
-        "email_body": body_match.group(1).strip(),
+        "email_subject": match_field("EMAIL_SUBJECT", "SUBJECT"),
+        "opener": match_field("OPENER"),
+        "fact": match_field("FACT"),
+        "pain": match_field("PAIN"),
+        "cta": match_field("CTA"),
     }
-    return GeneratedEmail.model_validate(payload).model_dump()
+
+    if not all(payload.values()):
+        body_match = re.search(
+            r"(?:^|\n)\s*(?:EMAIL_BODY|BODY)\s*:\s*(.+?)\s*\Z",
+            normalized,
+            re.IGNORECASE | re.DOTALL,
+        )
+        if payload["email_subject"] and body_match:
+            body_text = " ".join(body_match.group(1).split()).strip()
+            sentences = re.findall(r"[^.!?]+[.!?]", body_text)
+            sentences = [" ".join(sentence.split()).strip() for sentence in sentences if sentence.strip()]
+            if len(sentences) >= 3:
+                cta_sentence = sentences[-1]
+                body_middle = sentences[2:-1]
+                payload = {
+                    "email_subject": payload["email_subject"],
+                    "opener": sentences[0],
+                    "fact": sentences[1],
+                    "pain": " ".join(body_middle).strip() or sentences[2],
+                    "cta": cta_sentence,
+                }
+
+    if not all(payload.values()):
+        raise ValueError("Missing one or more email component sections.")
+
+    return GeneratedComponents.model_validate(payload).model_dump()
+
+
+def _compose_email(components: dict) -> dict:
+    body = " ".join(
+        part.strip()
+        for part in (
+            components.get("opener") or "",
+            components.get("fact") or "",
+            components.get("pain") or "",
+            components.get("cta") or "",
+        )
+        if part and part.strip()
+    ).strip()
+    return {
+        "email_subject": str(components.get("email_subject") or "").strip(),
+        "email_body": body,
+    }
 
 
 def _resolved_profile(parsed_lead: dict, enrichment: dict, score: dict) -> dict:
@@ -232,7 +325,7 @@ async def generate_email_and_insights(
     enrichment: dict,
     score: dict,
 ) -> dict:
-    """Single LLM call returns email_subject, email_body, and 4-6 insight bullets."""
+    """Generate email components with the LLM, then compose the final draft deterministically."""
     profile = _resolved_profile(parsed_lead, enrichment, score)
     base_user = _USER_TEMPLATE.format(
         profile_json=json.dumps(profile, indent=2, sort_keys=True),
@@ -253,7 +346,9 @@ async def generate_email_and_insights(
             max_tokens=900,
         )
         try:
-            parsed_output = _parse_tagged_output(str(text))
+            parsed_components = _parse_component_output(str(text))
+            parsed_output = _compose_email(parsed_components)
+            parsed_output = _validate_email_quality(parsed_lead, parsed_output)
             parsed_output["insights"] = _fallback_insights(parsed_lead, enrichment, score)
             return _normalize_output(parsed_output)
         except (ValueError, ValidationError) as exc:

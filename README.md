@@ -143,7 +143,7 @@ flowchart LR
 
 ## Output Generation
 
-Once the score is computed, the pipeline generates the final user-facing package. The email path is fail-soft: if Gemini does not return a usable draft, the system writes a deterministic fallback email and fallback insights instead of saving blanks.
+Once the score is computed, the pipeline generates the final user-facing package. The email path is now component-based: Gemini is asked for a subject, opener, company fact, pain line, and CTA. The code then assembles the final draft deterministically and rejects thin outputs. If Gemini still does not return usable components, the system writes a deterministic fallback email and fallback insights instead of saving blanks.
 
 The enrichment detail view is where the resolved company research, score breakdown, property context, and outreach draft come together for review.
 
@@ -151,14 +151,25 @@ The enrichment detail view is where the resolved company research, score breakdo
 
 ```mermaid
 flowchart TD
-    A[Resolved company + news + property context + score] --> B[Generate email subject/body]
-    A --> C[Generate or derive insights]
-    B --> D{Usable output?}
-    C --> D
-    D -- Yes --> E[Save generated output]
-    D -- No --> F[Build deterministic fallback email + insights]
-    F --> E
-    E --> G[Persist EnrichmentResult]
+    A[Resolved company + news + property context + score] --> B[Generate email components]
+    B --> C[Subject]
+    B --> D[Opener]
+    B --> E[Company fact]
+    B --> F[Pain line]
+    B --> G[CTA]
+    C --> H[Deterministic email composition]
+    D --> H
+    E --> H
+    F --> H
+    G --> H
+    A --> I[Generate or derive insights]
+    H --> J{Usable draft?}
+    I --> K[Insight payload]
+    J -- Yes --> L[Save generated output]
+    J -- No --> M[Build deterministic fallback email + insights]
+    M --> L
+    K --> L
+    L --> N[Persist EnrichmentResult]
 ```
 
 ## External APIs

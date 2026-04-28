@@ -854,37 +854,39 @@ function EmailModal({
   onClose: () => void
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#2d2115]/35 backdrop-blur-md">
-      <div className="mx-4 w-full max-w-2xl rounded-[30px] border border-luxe-line bg-luxe-panel shadow-[0_28px_72px_rgba(72,49,26,0.20)]">
-        <div className="border-b border-luxe-line px-6 py-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#2d2115]/38 p-4 backdrop-blur-md">
+      <div className="my-auto flex max-h-[calc(100vh-2rem)] w-full max-w-3xl flex-col overflow-hidden rounded-[30px] border border-luxe-line bg-luxe-panel shadow-[0_32px_80px_rgba(72,49,26,0.22)]">
+        <div className="border-b border-luxe-line px-6 pb-4 pt-6">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h2 className="font-display text-[24px] font-semibold text-luxe-ink">Draft email</h2>
-              <p className="text-[13px] text-luxe-muted">Generated outreach tailored to this lead.</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-luxe-muted">Outreach draft</p>
+              <h2 className="mt-2 font-display text-[24px] font-semibold text-luxe-ink">Draft email</h2>
+              <p className="mt-1 text-[13px] text-luxe-muted">Generated outreach tailored to this lead.</p>
             </div>
             <button
               onClick={onClose}
-              className="text-[24px] leading-none text-luxe-muted hover:text-luxe-ink"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-luxe-soft text-[22px] leading-none text-luxe-muted transition-colors hover:bg-luxe-accentSoft hover:text-luxe-ink"
             >
               ✕
             </button>
           </div>
         </div>
 
-        <div className="space-y-4 px-6 py-5">
+        <div className="space-y-4 overflow-y-auto px-6 py-5">
           <div className="rounded-2xl bg-luxe-soft px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-luxe-muted">Subject</p>
-            <p className="mt-1 text-[15px] font-medium text-luxe-ink">{emailSubject}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-luxe-muted">Subject</p>
+            <p className="mt-1 text-[17px] font-semibold leading-6 text-luxe-ink">{emailSubject}</p>
           </div>
+
           <div>
-            <label className="mb-2 block text-[11px] font-semibold uppercase tracking-wide text-luxe-muted">
+            <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.22em] text-luxe-muted">
               Body
             </label>
             <textarea
               value={emailBody}
               onChange={(event) => onEmailBodyChange(event.target.value)}
-              rows={10}
-              className="w-full rounded-2xl border border-luxe-line bg-luxe-soft px-4 py-3 text-[14px] text-luxe-ink outline-none focus:ring-2 focus:ring-luxe-accent/25"
+              rows={12}
+              className="min-h-[360px] w-full rounded-2xl border border-luxe-line bg-luxe-soft px-4 py-3 text-[14px] leading-7 text-[#4f3b28] outline-none focus:ring-2 focus:ring-luxe-accent/25"
             />
           </div>
         </div>
@@ -892,19 +894,19 @@ function EmailModal({
         <div className="flex justify-end gap-2 border-t border-luxe-line px-6 py-4">
           <button
             onClick={onClose}
-            className="rounded-xl border border-luxe-line bg-luxe-soft px-4 py-2 text-[14px] font-medium text-luxe-ink hover:bg-luxe-accentSoft"
+            className="rounded-2xl border border-luxe-line bg-luxe-soft px-4 py-2.5 text-[14px] font-semibold text-luxe-ink transition-colors hover:bg-luxe-accentSoft"
           >
             Close
           </button>
           <button
             onClick={onCopy}
-            className="rounded-xl border border-luxe-line bg-luxe-soft px-4 py-2 text-[14px] font-medium text-luxe-ink hover:bg-luxe-accentSoft"
+            className="rounded-2xl border border-luxe-line bg-[#f8f1e6] px-4 py-2.5 text-[14px] font-semibold text-luxe-ink transition-colors hover:bg-luxe-accentSoft"
           >
             Copy to clipboard
           </button>
           <a
             href={mailtoHref}
-            className="rounded-xl bg-luxe-accent px-4 py-2 text-[14px] font-medium text-[#fff9f0] hover:bg-[#77562e]"
+            className="rounded-2xl border border-[#7b5a33] bg-gradient-to-br from-[#9a7343] via-[#8e6839] to-[#74512a] px-4 py-2.5 text-[14px] font-semibold text-[#fff9f0] shadow-[0_10px_20px_rgba(116,81,42,0.18)] transition-all hover:-translate-y-[1px] hover:shadow-[0_14px_24px_rgba(116,81,42,0.24)]"
           >
             Open in Gmail
           </a>
