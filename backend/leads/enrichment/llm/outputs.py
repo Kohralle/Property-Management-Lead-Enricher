@@ -126,11 +126,17 @@ async def generate_email_and_insights(
         system=_SYSTEM_PROMPT,
         user=_USER_TEMPLATE.format(profile_json=json.dumps(profile, indent=2, sort_keys=True)),
         response_model=None,
-        max_tokens=512,
+        max_tokens=800,
     )
+
+    body_text = str(body).strip()
+    # Strip any subject line Gemini includes despite being told not to
+    if body_text.lower().startswith("subject:"):
+        lines = body_text.split("\n", 2)
+        body_text = lines[2].strip() if len(lines) > 2 else ""
 
     return {
         "email_subject": f"EliseAI + {company}",
-        "email_body": str(body).strip(),
+        "email_body": body_text,
         "insights": build_fallback_email_and_insights(parsed_lead, enrichment, score)["insights"],
     }
