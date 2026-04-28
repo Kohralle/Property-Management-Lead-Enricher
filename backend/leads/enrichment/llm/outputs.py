@@ -7,7 +7,14 @@ from pydantic import BaseModel, Field
 
 from leads.enrichment.llm.client import call_gemini
 
-_SYSTEM_PROMPT = """You are a sales assistant for EliseAI, which sells conversational AI to multifamily property management companies.
+_SYSTEM_PROMPT = """You are a sales assistant for EliseAI, which sells conversational AI to multifamily property management companies. EliseAI automates leasing follow-up, maintenance intake, and resident communication — helping operators respond faster and handle more volume without adding headcount.
+
+Tailor the pitch to the company's profile:
+- Large property manager: lead with handling leasing and maintenance volume at scale across a large portfolio
+- Small property manager or owner-operator: lead with doing more with a lean team — AI covers after-hours inquiries and follow-up so nothing falls through the cracks
+- Company with recent growth news: lead with scaling operations without proportional headcount growth
+- High renter-occupied market (>60% renter share): lead with leasing speed and response time in a competitive rental environment
+
 Write a short outbound sales email and a set of insights based on the lead profile provided.
 Return valid JSON only."""
 
