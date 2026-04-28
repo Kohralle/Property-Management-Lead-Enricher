@@ -176,13 +176,23 @@ export default function EnrichmentDetail({
               </div>
 
               <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-                {details.segments.map((segment) => (
-                  <div key={segment.label} className="rounded-2xl border border-[#dfcfb7] bg-luxe-soft px-4 py-3 shadow-[0_8px_18px_rgba(98,73,46,0.05)]">
-                    <p className="text-[12px] uppercase tracking-wide text-luxe-muted">{segment.label}</p>
-                    <p className="mt-1 text-[22px] font-semibold text-luxe-ink">{segment.points}<span className="text-[14px] font-medium text-luxe-muted"> pts</span></p>
-                    <p className="mt-1 text-[12px] text-luxe-muted">out of {segment.maxPoints}</p>
-                  </div>
-                ))}
+                {details.segments.map((segment) => {
+                  const confidenceItem = segment.label === 'Company Fit'
+                    ? data.score_breakdown.company_fit_hard.breakdown.find((r) => r.rule === 'confidence_multiplier')
+                    : undefined
+                  return (
+                    <div key={segment.label} className="rounded-2xl border border-[#dfcfb7] bg-luxe-soft px-4 py-3 shadow-[0_8px_18px_rgba(98,73,46,0.05)]">
+                      <p className="text-[12px] uppercase tracking-wide text-luxe-muted">{segment.label}</p>
+                      <p className="mt-1 text-[22px] font-semibold text-luxe-ink">{segment.points}<span className="text-[14px] font-medium text-luxe-muted"> pts</span></p>
+                      <p className="mt-1 text-[12px] text-luxe-muted">out of {segment.maxPoints}</p>
+                      {confidenceItem?.confidence !== undefined && (
+                        <p className="mt-1.5 text-[11px] font-medium text-luxe-muted">
+                          {Math.round(confidenceItem.confidence * 100)}% confidence
+                        </p>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
 
               {showRules && (
@@ -326,7 +336,9 @@ function RuleList({ title, bucket, maxPoints }: { title: string; bucket: ScoreBu
             <div>
               <p className="text-[13px] font-medium text-luxe-ink">{formatRuleName(item.rule)}</p>
               <p className={`text-[12px] ${item.fired ? 'text-[#7a5a2f]' : 'text-luxe-muted'}`}>
-                {item.fired ? '✓' : '✕'}
+                {item.rule === 'confidence_multiplier' && item.confidence !== undefined
+                  ? `${Math.round(item.confidence * 100)}% confidence`
+                  : item.fired ? '✓' : '✕'}
               </p>
             </div>
             <span className="text-[13px] font-semibold text-[#5f4935]">{formatRuleScore(item.rule, item.points)}</span>
@@ -773,9 +785,10 @@ function maxPointsForRule(rule: string, points: number): number | null {
     scale_signal_large: 3,
     scale_signal_medium: 2,
     scale_signal_small: 1,
-    email_domain_type_corporate: 12,
-    email_domain_type_property_specific: 1,
-    email_domain_type_generic: 5,
+    email_domain_type_corporate: 12,       // contact quality bucket
+    email_domain_bonus_corporate: 3,       // company fit bucket
+    email_domain_bonus_property_specific: 1,
+    email_domain_bonus_generic: 5,
     recent_relevant_news: 8,
     growth_signal_news: 10,
     renter_pct_over_40: 6,

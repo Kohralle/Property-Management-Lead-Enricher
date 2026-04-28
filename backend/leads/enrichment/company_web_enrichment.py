@@ -370,8 +370,8 @@ def compute_company_score(classification: dict) -> dict:
             {"rule": f"property_management_relevance_{property_management_relevance}", "fired": property_management_relevance != "low" and property_management_relevance != "unknown", "points": _PROPERTY_MGMT_BONUS[property_management_relevance]},
             {"rule": f"multifamily_relevance_{multifamily_relevance}", "fired": multifamily_relevance != "low" and multifamily_relevance != "unknown", "points": _MULTIFAMILY_BONUS[multifamily_relevance]},
             {"rule": f"scale_signal_{scale_signal}", "fired": scale_signal != "unknown", "points": _SCALE_BONUS[scale_signal]},
-            {"rule": f"email_domain_type_{email_domain_type}", "fired": email_domain_type != "unknown", "points": _EMAIL_DOMAIN_BONUS[email_domain_type]},
-            {"rule": "confidence_multiplier", "fired": True, "points": final_score - raw_score},
+            {"rule": f"email_domain_bonus_{email_domain_type}", "fired": email_domain_type != "unknown", "points": _EMAIL_DOMAIN_BONUS[email_domain_type]},
+            {"rule": "confidence_multiplier", "fired": True, "points": final_score - raw_score, "confidence": confidence},
         ],
     }
 

@@ -34,26 +34,9 @@ flowchart TD
     O --> P[Save EnrichmentResult]
 ```
 
-## Parallel Research Stage
-
-This is the highest-latency part of the pipeline, so it runs concurrently. The point is to avoid waiting for company research to finish before news, weather, or Census calls begin.
-
-```mermaid
-flowchart LR
-    A[Parsed lead] --> B1[Company research]
-    A --> B2[News search]
-    A --> B3[Weather]
-    A --> B4[Geo demographics]
-
-    B1 --> C[Company profile]
-    B2 --> D[Top 10 article URLs]
-    B3 --> E[Current conditions]
-    B4 --> F[Matched tract + ACS metrics]
-```
-
 ## Company Research
 
-Company research is the classification layer. Gemini with Google Search grounding is used to determine what the company does, whether it is actually property-management related, whether it is multifamily relevant, how large it seems, and what evidence supports those claims. The code then converts that classification into score components.
+EliseAI sells to multifamily property managers. Before spending AE time on a lead, the pipeline needs to know whether the company is actually in that business — or whether it's a broker, vendor, single-building LLC, or something entirely unrelated. Gemini searches the web in real time and classifies the company by type, property-management relevance, multifamily focus, and operating scale. That classification drives 52 of the 100 points, making it the most influential signal in the model. Without grounded research you'd be guessing company identity from a name and an email address.
 
 ```mermaid
 flowchart TD
@@ -75,7 +58,7 @@ flowchart TD
 
 ## News Handling
 
-News is intentionally two-stage. First the system finds candidate articles. Then it checks article body excerpts for actual company mentions and growth language so generic housing coverage does not inflate the score.
+Recent company news is the strongest signal that a property manager is actively growing and under operational pressure — exactly when they're most likely to be evaluating new software. An acquisition announcement, a new development breaking ground, or an expansion into a new market tells you the company is moving fast and probably stretched thin on leasing and maintenance follow-up. That's EliseAI's pitch. The pipeline pulls up to 10 articles, verifies each one actually mentions the company by name, and then uses Gemini to judge whether the coverage reflects growth activity versus generic housing industry news.
 
 ```mermaid
 flowchart TD
@@ -94,7 +77,7 @@ flowchart TD
 
 ## Property Context
 
-Property context is tract-level, not city-level. The address is geocoded to a Census tract, then ACS 5-year data is normalized into readable housing, demographic, and economic fields. The UI now calls this “Property context,” but the backend is still using tract-level Census geography under the hood.
+EliseAI's product creates the most value in high-volume rental environments — lots of leasing inquiries, high turnover, active maintenance queues. A property in a tract that is 80% renter-occupied with $2,400 median gross rent operates in a fundamentally different way than one in a suburban owner-occupied neighborhood. The Census enrichment pulls tract-level ACS 5-year data so the score can reward leads operating in dense, high-rent rental markets where the ROI case for leasing and maintenance AI is strongest.
 
 ```mermaid
 flowchart TD
@@ -108,6 +91,10 @@ flowchart TD
     F --> H
     G --> H
 ```
+
+## Weather
+
+Weather does not affect scoring. It gives the email generation model a timely, location-specific opening line so the outreach feels written today rather than templated. A cold email that opens with something grounded in the current moment reads differently than one that opens with "I wanted to reach out."
 
 ## Scoring Model
 
@@ -143,7 +130,7 @@ flowchart LR
 
 ## Output Generation
 
-Once the score is computed, the pipeline generates the final user-facing package. The email path is now component-based: Gemini is asked for a subject, opener, company fact, pain line, and CTA. The code then assembles the final draft deterministically and rejects thin outputs. If Gemini still does not return usable components, the system writes a deterministic fallback email and fallback insights instead of saving blanks.
+An AE shouldn't have to write a cold email from scratch after reviewing enrichment. Once the score is computed, the pipeline sends all resolved context — company research, relevant news, property demographics, weather, and the score — to Gemini in a single call and gets back a subject line, email body, and 4–6 insight bullets. If that call fails, a deterministic fallback assembles a plain-text draft from the enriched fields directly. Either way, the result is always saved.
 
 The enrichment detail view is where the resolved company research, score breakdown, property context, and outreach draft come together for review.
 
@@ -151,35 +138,22 @@ The enrichment detail view is where the resolved company research, score breakdo
 
 ```mermaid
 flowchart TD
-    A[Resolved company + news + property context + score] --> B[Generate email components]
-    B --> C[Subject]
-    B --> D[Opener]
-    B --> E[Company fact]
-    B --> F[Pain line]
-    B --> G[CTA]
-    C --> H[Deterministic email composition]
-    D --> H
-    E --> H
-    F --> H
-    G --> H
-    A --> I[Generate or derive insights]
-    H --> J{Usable draft?}
-    I --> K[Insight payload]
-    J -- Yes --> L[Save generated output]
-    J -- No --> M[Build deterministic fallback email + insights]
-    M --> L
-    K --> L
-    L --> N[Persist EnrichmentResult]
+    A[Company + news + property context + score + weather] --> B[Single Gemini call]
+    B --> C{Usable output?}
+    C -- Yes --> D[Save generated email + insights]
+    C -- No --> E[Build deterministic fallback]
+    E --> D
+    D --> F[Persist EnrichmentResult]
 ```
 
 ## External APIs
 
-| API | What It Adds |
-| --- | --- |
-| Gemini (Google Search grounding) | Live company research: type, scale, PM/multifamily relevance, evidence URLs |
-| SerpAPI (Google News) | Candidate article discovery for company news |
-| U.S. Census Geocoder + ACS 5-year | Address-based tract enrichment with demographic, economic, and housing context |
-| OpenWeather | Current local weather for outreach context |
+| API | Where to get a key | What it adds |
+| --- | --- | --- |
+| Gemini (Google Search grounding) | [Google AI Studio](https://aistudio.google.com/app/apikey) | Live company research: type, scale, PM/multifamily relevance, evidence URLs |
+| SerpAPI (Google News) | [serpapi.com](https://serpapi.com/manage-api-key) | Candidate article discovery for company news |
+| U.S. Census Geocoder + ACS 5-year | [api.census.gov](https://api.census.gov/data/key_signup.html) | Address-based tract enrichment with demographic, economic, and housing context |
+| OpenWeather | [openweathermap.org](https://home.openweathermap.org/api_keys) | Current local weather for outreach context |
 
 ## Run Locally
 
@@ -194,24 +168,9 @@ flowchart TD
 5. Batch-enrich every lead without a result:
    `python manage.py enrich_all_leads`
 
-## Fault Tolerance
-
-The pipeline is designed to save partial results instead of hard-failing the entire request. If a provider errors out, the pipeline records the failure under `raw_enrichment._errors` and keeps going with whatever succeeded.
-
-```mermaid
-flowchart TD
-    A[External call] --> B{Success?}
-    B -- Yes --> C[Attach result]
-    B -- No --> D[Record step error]
-    D --> E[Use default / fallback payload]
-    C --> F[Continue pipeline]
-    E --> F
-```
-
 ## Known Limitations
 
 - Company research can still fall back to `unknown` when Gemini grounding or response parsing fails, though those failures are now surfaced in `raw_enrichment._errors`.
 - News quality is only as good as the Google News search results and article body accessibility; some publishers return `403`.
 - Property context is U.S.-only; non-U.S. addresses return `status: skipped`.
-- The current email draft path is intentionally fail-soft and may use a deterministic fallback when Gemini does not return a usable draft.
-- Census tract geography is statistically useful but not always human-friendly; the frontend presents it as “Property context” rather than exposing raw tract jargon everywhere.
+- Census tract geography is statistically useful but not always human-friendly; the frontend presents it as "Property context" rather than exposing raw tract jargon everywhere.

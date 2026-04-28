@@ -33,6 +33,7 @@ export interface RuleBreakdownItem {
   rule: string
   fired: boolean
   points: number
+  confidence?: number
 }
 
 export interface ScoreBucket {
