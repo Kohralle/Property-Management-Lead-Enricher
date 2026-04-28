@@ -1,0 +1,8 @@
+Django==4.2.30
+djangorestframework
+django-cors-headers
+google-genai
+httpx
+pydantic
+rapidfuzz
+python-dotenv

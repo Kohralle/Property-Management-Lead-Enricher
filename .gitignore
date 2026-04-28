@@ -1,0 +1,42 @@
+# Environment
+.env
+.env.local
+*.env
+
+# Python
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Django
+db.sqlite3
+*.log
+staticfiles/
+media/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local agent tooling
+.claude/
+
+# macOS
+.DS_Store
