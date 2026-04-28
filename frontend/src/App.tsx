@@ -38,20 +38,21 @@ export default function App() {
 
   return (
     <QueryClientProvider client={qc}>
-      <div className="flex h-screen bg-apple-lightgray font-sans">
+      <div className="flex h-screen bg-luxe-shell font-sans text-luxe-ink">
         {/* Sidebar */}
-        <aside className="w-56 bg-white border-r border-apple-separator flex flex-col shrink-0">
-          <div className="px-5 pt-8 pb-6">
-            <h1 className="text-[20px] font-bold text-gray-900 tracking-tight">Leads</h1>
-            <p className="text-[12px] text-apple-gray mt-0.5">Lead Tracker</p>
+        <aside className="flex w-60 shrink-0 flex-col border-r border-luxe-line bg-[#f4e7d1]/80 backdrop-blur">
+          <div className="px-6 pb-7 pt-9">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-luxe-muted">Lead Enricher</p>
+            <h1 className="mt-3 font-display text-[28px] font-semibold tracking-tight text-luxe-ink">Leads</h1>
+            <p className="mt-1 text-[12px] text-luxe-muted">Property management lead workflow</p>
           </div>
-          <nav className="flex-1 px-3">
+          <nav className="flex-1 px-4">
             <button
               onClick={() => navigate({ name: 'leads' })}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[14px] font-medium ${
+              className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-[14px] font-medium transition-colors ${
                 route.name === 'leads'
-                  ? 'bg-apple-blue/10 text-apple-blue'
-                  : 'text-gray-600 hover:bg-apple-lightgray'
+                  ? 'bg-luxe-panel text-luxe-accent shadow-sm ring-1 ring-luxe-line'
+                  : 'text-luxe-muted hover:bg-luxe-panel/70 hover:text-luxe-ink'
               }`}
             >
               <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
@@ -60,15 +61,16 @@ export default function App() {
               {route.name === 'leads' ? 'All Leads' : 'Back to Leads'}
             </button>
           </nav>
-          <div className="px-5 pb-6">
-            <p className="text-[11px] text-apple-separator">Lead Enricher</p>
+          <div className="px-6 pb-7">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-luxe-muted/80">Private workspace</p>
           </div>
         </aside>
 
         {/* Main */}
         <main className="flex-1 flex flex-col min-w-0">
-          <header className="bg-white border-b border-apple-separator px-6 py-4 shrink-0">
-            <h2 className="text-[17px] font-semibold text-gray-900">{title}</h2>
+          <header className="shrink-0 border-b border-luxe-line bg-luxe-panel/90 px-8 py-5 backdrop-blur">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-luxe-muted">Private lead workspace</p>
+            <h2 className="mt-2 font-display text-[24px] font-semibold tracking-tight text-luxe-ink">{title}</h2>
           </header>
           {route.name === 'leads' ? (
             <LeadsTable onOpenEnrichment={(enrichmentId) => navigate({ name: 'enrichment', enrichmentId })} />

@@ -5,9 +5,25 @@
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
 }
 
 body {
   margin: 0;
-  background: #F2F2F7;
+  background:
+    radial-gradient(circle at top left, rgba(255, 250, 240, 0.95), transparent 28%),
+    radial-gradient(circle at top right, rgba(234, 216, 187, 0.5), transparent 22%),
+    linear-gradient(180deg, #fbf5ea 0%, #f3eadb 46%, #efe3d1 100%);
+  color: #332417;
+}
+
+::selection {
+  background: rgba(142, 104, 57, 0.22);
+  color: #332417;
 }

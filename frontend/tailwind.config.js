@@ -4,14 +4,26 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+        sans: ['"Avenir Next"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+        display: ['"Iowan Old Style"', '"Baskerville"', '"Times New Roman"', 'serif'],
       },
       colors: {
+        luxe: {
+          shell: '#f6efe2',
+          panel: '#fff9f0',
+          soft: '#efe4d2',
+          line: '#d9c5a7',
+          accent: '#8e6839',
+          accentSoft: '#ead8bb',
+          ink: '#332417',
+          muted: '#8c7659',
+          shadow: '#a99070',
+        },
         apple: {
-          blue: '#007AFF',
-          gray: '#8E8E93',
-          lightgray: '#F2F2F7',
-          separator: '#C6C6C8',
+          blue: '#8e6839',
+          gray: '#8c7659',
+          lightgray: '#efe4d2',
+          separator: '#d9c5a7',
         },
       },
     },

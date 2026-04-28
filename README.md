@@ -2,6 +2,12 @@
 
 This project takes a CRM lead, resolves what the company is, gathers company and property context, scores the lead on a deterministic 100-point model, and saves a usable outbound package: score, tier, supporting evidence, draft email, and concise insights. The goal is to turn a thin lead record into something an AE can review quickly without guessing what the company does or why it scored the way it did.
 
+## App At A Glance
+
+The lead list is the operational starting point. It shows the current book of leads, existing enrichment status, and the entry point into the enrichment flow.
+
+![Lead list UI](docs/screenshots/leads-list.png)
+
 ## Pipeline Overview
 
 The enrichment request starts with lead parsing, then fans out into four parallel research tracks: grounded company research, Google News retrieval, weather, and tract-level Census enrichment. After that, the pipeline filters news for relevance and growth, computes deterministic scoring, generates the outreach package, and saves the result.
@@ -138,6 +144,10 @@ flowchart LR
 ## Output Generation
 
 Once the score is computed, the pipeline generates the final user-facing package. The email path is fail-soft: if Gemini does not return a usable draft, the system writes a deterministic fallback email and fallback insights instead of saving blanks.
+
+The enrichment detail view is where the resolved company research, score breakdown, property context, and outreach draft come together for review.
+
+![Enrichment detail UI](docs/screenshots/enrichment-detail.png)
 
 ```mermaid
 flowchart TD
