@@ -285,7 +285,17 @@ Enrichment data needs to live in the CRM to be durable. Start with a webhook tha
 
 ### Phase 6 — Measuring Impact (Month 3+)
 
-Metrics to track: reply rate by tier, time to first outreach, email edit rate, and pipeline from enriched vs unenriched leads. Set a 60-day checkpoint. If A-tier reply rate is not meaningfully higher than D-tier, the scoring model needs rethinking. If reps are spending more time on enrichment than it saves, the workflow needs simplifying.
+Metrics to track: reply rate by tier, time to first outreach, email edit rate, and pipeline from enriched vs unenriched leads. Set a 60-day checkpoint. The key is to measure the tool against the old workflow, not in isolation.
+
+**How to measure it well:**
+
+- **Reply rate by tier** — Compare A, B, C, and D-tier reply rates over the same time window. The question is whether the score is actually separating stronger leads from weaker ones. If A-tier and D-tier leads perform the same, the model is not creating useful signal.
+- **Time to first outreach** — Measure the time from lead creation to first outbound touch before and after rollout. If reps are enriching leads but not moving faster, the workflow may be adding friction instead of removing it.
+- **Email edit rate** — Track whether reps send the draft mostly as-is, make light edits, or rewrite it completely. A high rewrite rate means the drafting step is not earning trust yet, even if the rest of the enrichment is useful.
+- **Pipeline creation from enriched vs unenriched leads** — Compare how often enriched leads turn into real opportunities versus leads that were handled without the tool. This is the clearest test of whether the enrichment is improving prioritization rather than just producing interesting research.
+- **Rep-rated usefulness** — Ask pilot users to score each enrichment quickly after use: helpful, neutral, or not useful. That gives qualitative signal on whether the UI, score, and evidence are helping real decisions.
+
+At the 60-day checkpoint, the review should answer three simple questions: are reps moving faster, are they trusting the output, and are higher-scored leads performing better downstream? If not, the scoring model or workflow needs another iteration before broader operational dependency is added.
 
 ### Summary Timeline
 
