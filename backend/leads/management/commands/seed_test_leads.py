@@ -60,33 +60,6 @@ SEED_LEADS = [
         "state": "WA",
         "country": "US",
     },
-    {
-        "name": "Mike Smith",
-        "email": "mike@gmail.com",
-        "company": "Mike's Rental Properties",
-        "property_address": "123 Pine St",
-        "city": "Boise",
-        "state": "ID",
-        "country": "US",
-    },
-    {
-        "name": "Alicia Warren",
-        "email": "alicia.warren@sunrisehealthliving.com",
-        "company": "Sunrise Health Living",
-        "property_address": "4200 Medical Center Dr",
-        "city": "Nashville",
-        "state": "TN",
-        "country": "US",
-    },
-    {
-        "name": "Owen Clarke",
-        "email": "owen.clarke@harbourresi.co.uk",
-        "company": "Harbour Residential Group",
-        "property_address": "25 Bishopsgate",
-        "city": "London",
-        "state": "London",
-        "country": "UK",
-    },
 ]
 
 
