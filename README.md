@@ -278,16 +278,32 @@ Once pilot reps are using it consistently and scores feel right, roll out to the
 
 ### Phase 5 — Measuring Impact (Month 3+)
 
-The success criteria should stay focused on sales performance, not UI engagement. Use a 60-day checkpoint and measure the new workflow against the old one or against a comparable control group if possible.
+The business outcome we are tracking is meetings booked and pipeline generated per rep — we want to see those numbers go up at the 60-day mark compared to the pre-enrichment baseline.
 
-The four metrics to track are:
+To attribute that improvement to the tool rather than seasonality or market conditions, split reps into heavy enrichment users versus light users and compare their numbers over the same window. Same time period, same lead pool — enrichment usage is the only variable. This controls for most external noise and produces a defensible "enrichment users outperformed non-users by X%" result that connects directly to org performance.
 
-- **% of leads converting** — This is the clearest bottom-line signal that the tool is helping reps target better leads and send better outreach. If conversion does not rise, the enrichment is not improving decision quality.
-- **Outreach volume** — This measures whether the workflow is helping the team work more leads, not slowing them down. If volume drops, the tool may be adding process overhead.
-- **% of leads contacted** — Volume alone can be misleading if reps send more touches to the same small set of leads. This tells you whether the team is actually covering more of the lead pool.
-- **Opportunities created per lead** — This is the quality check on top of conversion and activity. It shows whether the enriched workflow is producing more real pipeline per lead worked, not just more outreach.
+The model validation sits underneath that business outcome. The key check is **tier-stratified meeting rate**: do A-tier leads book meetings at a higher rate than B, B higher than C, C higher than D? If that ordering holds, the score is predictive and the rep-level improvement is attributable to better prioritization. If it does not hold, the scoring weights are wrong and need recalibration before the tool is trusted as a prioritization signal.
 
-At the 60-day checkpoint, the review should answer three questions: are more leads converting, is the team reaching more leads, and is the enriched workflow producing more opportunities per lead worked? If not, the scoring model or workflow needs another iteration before broader operational dependency is added.
+#### The calibration table
+
+At the 60-day checkpoint, the core deliverable is a tier-by-outcome table:
+
+| Tier | Leads | Meetings | Meeting rate | Opps | Opp rate |
+|---|---|---|---|---|---|
+| A | — | — | — | — | — |
+| B | — | — | — | — | — |
+| C | — | — | — | — | — |
+| D | — | — | — | — | — |
+
+Target: A-tier meeting rate at least 2× the C-tier rate. This table is also the input for the scoring rebalance described in the Future Work section.
+
+#### Supporting metrics
+
+- **Enrichment adoption rate** — what percentage of new leads are enriched before outreach. If this is low, the business outcome comparison is measuring a mixed population and cannot be trusted.
+- **A- and B-tier coverage rate** — what percentage of high-tier leads receive at least one outreach touch. Guards against high-potential leads falling through the cracks while the team adjusts to a new workflow.
+- **Opportunities per lead in the pool** — pipeline quality check. Uses leads in the pool as the denominator, not leads worked, to avoid cherry-picking bias. Track ARR per lead if the CRM has deal sizes.
+
+At the 60-day checkpoint, the review answers three questions: did meetings and pipeline per rep go up, does A-tier outperform lower tiers, and are reps actually using the tool? If any answer is no, the scoring model or workflow needs another iteration before broader operational dependency is added.
 
 ### Summary Timeline
 
