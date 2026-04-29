@@ -225,7 +225,6 @@ Together they give a salesperson the five-second read on a lead: what is this co
 | Gemini (Google Search grounding) | [Google AI Studio](https://aistudio.google.com/app/apikey) | Live company research: type, scale, PM/multifamily relevance, evidence URLs |
 | SerpAPI (Google News) | [serpapi.com](https://serpapi.com/manage-api-key) | Candidate article discovery for company news |
 | U.S. Census Geocoder + ACS 5-year | [api.census.gov](https://api.census.gov/data/key_signup.html) | Address-based tract enrichment with demographic, economic, and housing context |
-| OpenWeather | [openweathermap.org](https://home.openweathermap.org/api_keys) | Current local weather for outreach context |
 
 ## Run Locally
 
