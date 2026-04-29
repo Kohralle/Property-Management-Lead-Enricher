@@ -1,0 +1,360 @@
+[
+  {
+    "name": "Kris Sunga",
+    "email": "Kris@tripalink.com",
+    "company": "Tripalink",
+    "city": "Seattle",
+    "state": "WA",
+    "score": 94,
+    "tier": "A",
+    "company_type": "large_property_manager",
+    "scale": "large",
+    "pm_relevance": "high",
+    "multifamily_relevance": "high",
+    "score_breakdown": {
+      "company_fit": {
+        "points": 52,
+        "max": 52,
+        "rules": [
+          { "rule": "company_type_large_property_manager", "fired": true, "points": 38 },
+          { "rule": "property_management_relevance_high", "fired": true, "points": 8 },
+          { "rule": "multifamily_relevance_high", "fired": true, "points": 3 },
+          { "rule": "scale_signal_large", "fired": true, "points": 3 },
+          { "rule": "confidence_multiplier", "fired": true, "points": 0, "confidence": 1.0 }
+        ]
+      },
+      "news_activity": {
+        "points": 18,
+        "max": 18,
+        "rules": [
+          { "rule": "recent_relevant_news", "fired": true, "points": 8 },
+          { "rule": "growth_signal_news", "fired": true, "points": 10 }
+        ]
+      },
+      "contact_quality": {
+        "points": 12,
+        "max": 12,
+        "rules": [
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 12 }
+        ]
+      },
+      "property_context": {
+        "points": 12,
+        "max": 18,
+        "rules": [
+          { "rule": "renter_pct_over_40", "fired": true, "points": 6 },
+          { "rule": "local_population_over_4k", "fired": false, "points": 0 },
+          { "rule": "median_rent_over_1500", "fired": true, "points": 6 }
+        ]
+      }
+    },
+    "email_subject": "Streamlining Tripalink's Tenant Experience with AI",
+    "email_body": "Kris, seeing Tripalink's significant presence in Seattle's student housing, I wanted to introduce EliseAI, our specialized AI assistant for property management. EliseAI automates routine inquiries and provides instant 24/7 support, dramatically boosting your team's efficiency and tenant satisfaction. Would you be open to a quick 15-minute chat next week to explore how we could specifically benefit Tripalink?",
+    "insights": [
+      "Type: large property manager",
+      "Scale: large",
+      "Email domain: corporate",
+      "Local population: 2,137",
+      "Median rent: $1,755"
+    ]
+  },
+  {
+    "name": "Sarah Chen",
+    "email": "sarah.chen@bozzuto.com",
+    "company": "The Bozzuto Group",
+    "city": "Arlington",
+    "state": "VA",
+    "score": 76,
+    "tier": "B",
+    "company_type": "large_property_manager",
+    "scale": "large",
+    "pm_relevance": "high",
+    "multifamily_relevance": "high",
+    "score_breakdown": {
+      "company_fit": {
+        "points": 52,
+        "max": 52,
+        "rules": [
+          { "rule": "company_type_large_property_manager", "fired": true, "points": 38 },
+          { "rule": "property_management_relevance_high", "fired": true, "points": 5 },
+          { "rule": "multifamily_relevance_high", "fired": true, "points": 3 },
+          { "rule": "scale_signal_large", "fired": true, "points": 3 },
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 3 },
+          { "rule": "confidence_multiplier", "fired": true, "points": 0 }
+        ]
+      },
+      "news_activity": {
+        "points": 0,
+        "max": 18,
+        "rules": [
+          { "rule": "recent_relevant_news", "fired": false, "points": 0 },
+          { "rule": "growth_signal_news", "fired": false, "points": 0 }
+        ]
+      },
+      "contact_quality": {
+        "points": 12,
+        "max": 12,
+        "rules": [
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 12 }
+        ]
+      },
+      "property_context": {
+        "points": 12,
+        "max": 18,
+        "rules": [
+          { "rule": "renter_pct_over_40", "fired": true, "points": 6 },
+          { "rule": "local_population_over_4k", "fired": false, "points": 0 },
+          { "rule": "median_rent_over_1500", "fired": true, "points": 6 }
+        ]
+      }
+    },
+    "email_subject": "EliseAI + The Bozzuto Group",
+    "email_body": "Hi Sarah,\n\nYour portfolio at The Bozzuto Group is impressive, especially with your recent expansion. Managing over 100,000 units across 20+ states requires incredible operational efficiency.\n\nEliseAI helps large property managers like Bozzuto automate critical leasing and maintenance communications, ensuring rapid response times in competitive markets like Arlington. Our conversational AI can handle a massive volume of inquiries, allowing your teams to scale operations and respond faster without adding proportional headcount.\n\nWould you be open to a quick chat about how we could support Bozzuto's continued growth?",
+    "insights": [
+      "Type: large property manager",
+      "Scale: large",
+      "Email domain: corporate",
+      "Local population: 3,887",
+      "Median rent: $2,729"
+    ]
+  },
+  {
+    "name": "Mike Rodriguez",
+    "email": "m.rodriguez@greystar.com",
+    "company": "Greystar Real Estate Partners",
+    "city": "Knoxville",
+    "state": "TN",
+    "score": 80,
+    "tier": "B",
+    "company_type": "owner_operator",
+    "scale": "large",
+    "pm_relevance": "high",
+    "multifamily_relevance": "high",
+    "score_breakdown": {
+      "company_fit": {
+        "points": 44,
+        "max": 52,
+        "rules": [
+          { "rule": "company_type_owner_operator", "fired": true, "points": 30 },
+          { "rule": "property_management_relevance_high", "fired": true, "points": 5 },
+          { "rule": "multifamily_relevance_high", "fired": true, "points": 3 },
+          { "rule": "scale_signal_large", "fired": true, "points": 3 },
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 3 },
+          { "rule": "confidence_multiplier", "fired": true, "points": 0 }
+        ]
+      },
+      "news_activity": {
+        "points": 18,
+        "max": 18,
+        "rules": [
+          { "rule": "recent_relevant_news", "fired": true, "points": 8 },
+          { "rule": "growth_signal_news", "fired": true, "points": 10 }
+        ]
+      },
+      "contact_quality": {
+        "points": 12,
+        "max": 12,
+        "rules": [
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 12 }
+        ]
+      },
+      "property_context": {
+        "points": 6,
+        "max": 18,
+        "rules": [
+          { "rule": "renter_pct_over_40", "fired": true, "points": 6 },
+          { "rule": "local_population_over_4k", "fired": false, "points": 0 },
+          { "rule": "median_rent_over_1500", "fired": false, "points": 0 }
+        ]
+      }
+    },
+    "email_subject": "EliseAI + Greystar Real Estate Partners",
+    "email_body": "Hi Mike,\n\nGiven Greystar's impressive scale as the largest apartment manager, I wanted to introduce how EliseAI helps streamline operations across vast portfolios.\n\nOur conversational AI platform automates leasing follow-up, maintenance intake, and resident communication—helping your teams respond faster and handle more volume without adding headcount.\n\nOpen to 15 minutes next week to compare notes?",
+    "insights": [
+      "Type: owner operator",
+      "Scale: large",
+      "Email domain: corporate",
+      "Local population: 2,650",
+      "Median rent: $1,332"
+    ]
+  },
+  {
+    "name": "Jennifer Park",
+    "email": "jpark@avaloncommunities.com",
+    "company": "AvalonBay Communities",
+    "city": "Arlington",
+    "state": "VA",
+    "score": 86,
+    "tier": "A",
+    "company_type": "owner_operator",
+    "scale": "large",
+    "pm_relevance": "high",
+    "multifamily_relevance": "high",
+    "score_breakdown": {
+      "company_fit": {
+        "points": 44,
+        "max": 52,
+        "rules": [
+          { "rule": "company_type_owner_operator", "fired": true, "points": 30 },
+          { "rule": "property_management_relevance_high", "fired": true, "points": 5 },
+          { "rule": "multifamily_relevance_high", "fired": true, "points": 3 },
+          { "rule": "scale_signal_large", "fired": true, "points": 3 },
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 3 },
+          { "rule": "confidence_multiplier", "fired": true, "points": 0 }
+        ]
+      },
+      "news_activity": {
+        "points": 18,
+        "max": 18,
+        "rules": [
+          { "rule": "recent_relevant_news", "fired": true, "points": 8 },
+          { "rule": "growth_signal_news", "fired": true, "points": 10 }
+        ]
+      },
+      "contact_quality": {
+        "points": 12,
+        "max": 12,
+        "rules": [
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 12 }
+        ]
+      },
+      "property_context": {
+        "points": 12,
+        "max": 18,
+        "rules": [
+          { "rule": "renter_pct_over_40", "fired": true, "points": 6 },
+          { "rule": "local_population_over_4k", "fired": false, "points": 0 },
+          { "rule": "median_rent_over_1500", "fired": true, "points": 6 }
+        ]
+      }
+    },
+    "email_subject": "EliseAI + AvalonBay Communities",
+    "email_body": "Hi Jennifer,\n\nGiven AvalonBay's impressive scale and recent growth plans, I wanted to introduce how EliseAI helps leading multifamily operators manage high leasing volume and resident communication without proportional headcount growth.\n\nEliseAI automates follow-up, maintenance intake, and resident messaging—so your teams can scale efficiently across a large and growing portfolio.\n\nOpen to 15 minutes next week to compare notes?",
+    "insights": [
+      "Type: owner operator",
+      "Scale: large",
+      "Email domain: corporate",
+      "Local population: 800",
+      "Median rent: $2,520"
+    ]
+  },
+  {
+    "name": "David Kim",
+    "email": "david@kittlepg.com",
+    "company": "Kittle Property Group",
+    "city": "Indianapolis",
+    "state": "IN",
+    "score": 86,
+    "tier": "A",
+    "company_type": "owner_operator",
+    "scale": "large",
+    "pm_relevance": "high",
+    "multifamily_relevance": "high",
+    "score_breakdown": {
+      "company_fit": {
+        "points": 44,
+        "max": 52,
+        "rules": [
+          { "rule": "company_type_owner_operator", "fired": true, "points": 30 },
+          { "rule": "property_management_relevance_high", "fired": true, "points": 5 },
+          { "rule": "multifamily_relevance_high", "fired": true, "points": 3 },
+          { "rule": "scale_signal_large", "fired": true, "points": 3 },
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 3 },
+          { "rule": "confidence_multiplier", "fired": true, "points": 0 }
+        ]
+      },
+      "news_activity": {
+        "points": 18,
+        "max": 18,
+        "rules": [
+          { "rule": "recent_relevant_news", "fired": true, "points": 8 },
+          { "rule": "growth_signal_news", "fired": true, "points": 10 }
+        ]
+      },
+      "contact_quality": {
+        "points": 12,
+        "max": 12,
+        "rules": [
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 12 }
+        ]
+      },
+      "property_context": {
+        "points": 12,
+        "max": 18,
+        "rules": [
+          { "rule": "renter_pct_over_40", "fired": false, "points": 0 },
+          { "rule": "local_population_over_4k", "fired": true, "points": 6 },
+          { "rule": "median_rent_over_1500", "fired": true, "points": 6 }
+        ]
+      }
+    },
+    "email_subject": "EliseAI + Kittle Property Group",
+    "email_body": "Hi David,\n\nI noticed Kittle Property Group's continued expansion with new developments across Indianapolis and the Midwest. Scaling a growing portfolio while keeping leasing and resident communication tight is a real operational challenge.\n\nEliseAI helps multifamily teams automate follow-up, maintenance intake, and resident messaging—so nothing falls through the cracks as you grow.\n\nOpen to 15 minutes next week to compare notes?",
+    "insights": [
+      "Type: owner operator",
+      "Scale: large",
+      "Email domain: corporate",
+      "Local population: 5,680",
+      "Median rent: $1,782"
+    ]
+  },
+  {
+    "name": "Lisa Thompson",
+    "email": "lisa.t@balfourbeatty.com",
+    "company": "Balfour Beatty Communities",
+    "city": "Louisville",
+    "state": "KY",
+    "score": 94,
+    "tier": "A",
+    "company_type": "large_property_manager",
+    "scale": "large",
+    "pm_relevance": "high",
+    "multifamily_relevance": "high",
+    "score_breakdown": {
+      "company_fit": {
+        "points": 52,
+        "max": 52,
+        "rules": [
+          { "rule": "company_type_large_property_manager", "fired": true, "points": 38 },
+          { "rule": "property_management_relevance_high", "fired": true, "points": 8 },
+          { "rule": "multifamily_relevance_high", "fired": true, "points": 3 },
+          { "rule": "scale_signal_large", "fired": true, "points": 3 },
+          { "rule": "confidence_multiplier", "fired": true, "points": 0, "confidence": 1.0 }
+        ]
+      },
+      "news_activity": {
+        "points": 18,
+        "max": 18,
+        "rules": [
+          { "rule": "recent_relevant_news", "fired": true, "points": 8 },
+          { "rule": "growth_signal_news", "fired": true, "points": 10 }
+        ]
+      },
+      "contact_quality": {
+        "points": 12,
+        "max": 12,
+        "rules": [
+          { "rule": "email_domain_type_corporate", "fired": true, "points": 12 }
+        ]
+      },
+      "property_context": {
+        "points": 12,
+        "max": 18,
+        "rules": [
+          { "rule": "renter_pct_over_40", "fired": false, "points": 0 },
+          { "rule": "local_population_over_4k", "fired": true, "points": 6 },
+          { "rule": "median_rent_over_1500", "fired": true, "points": 6 }
+        ]
+      }
+    },
+    "email_subject": "EliseAI + Balfour Beatty Communities",
+    "email_body": "Hi Lisa,\n\nGiven Balfour Beatty Communities' extensive portfolio and recent growth with acquisitions like River Pointe, I wanted to introduce EliseAI.\n\nLarge property managers like Balfour Beatty use EliseAI to automate leasing follow-up, maintenance intake, and resident communication at scale—handling more volume without adding headcount.\n\nOpen to 15 minutes next week to compare notes?",
+    "insights": [
+      "Type: large property manager",
+      "Scale: large",
+      "Email domain: corporate",
+      "Local population: 4,510",
+      "Median rent: $2,000"
+    ]
+  }
+]

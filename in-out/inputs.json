@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Kris Sunga",
+    "email": "Kris@tripalink.com",
+    "company": "Tripalink",
+    "property_address": "4231 12th Ave NE",
+    "city": "Seattle",
+    "state": "WA"
+  },
+  {
+    "name": "Sarah Chen",
+    "email": "sarah.chen@bozzuto.com",
+    "company": "The Bozzuto Group",
+    "property_address": "1700 Clarendon Blvd",
+    "city": "Arlington",
+    "state": "VA"
+  },
+  {
+    "name": "Mike Rodriguez",
+    "email": "m.rodriguez@greystar.com",
+    "company": "Greystar Real Estate Partners",
+    "property_address": "750 S Gay St",
+    "city": "Knoxville",
+    "state": "TN"
+  },
+  {
+    "name": "Jennifer Park",
+    "email": "jpark@avaloncommunities.com",
+    "company": "AvalonBay Communities",
+    "property_address": "671 N Glebe Rd",
+    "city": "Arlington",
+    "state": "VA"
+  },
+  {
+    "name": "David Kim",
+    "email": "david@kittlepg.com",
+    "company": "Kittle Property Group",
+    "property_address": "500 E 96th St",
+    "city": "Indianapolis",
+    "state": "IN"
+  },
+  {
+    "name": "Lisa Thompson",
+    "email": "lisa.t@balfourbeatty.com",
+    "company": "Balfour Beatty Communities",
+    "property_address": "10350 Ormsby Park Pl",
+    "city": "Louisville",
+    "state": "KY"
+  }
+]
