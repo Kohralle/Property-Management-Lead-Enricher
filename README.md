@@ -282,12 +282,12 @@ The success criteria should stay focused on sales performance, not UI engagement
 
 The four metrics to track are:
 
-- **Lead-to-meeting conversion** — The clearest early signal that the tool is helping reps prioritize the right leads.
-- **Lead-to-opportunity conversion** — Shows whether enriched leads are actually turning into real pipeline, not just getting replies.
-- **Time to first outreach** — Measures whether the tool speeds up the sales motion instead of adding friction.
-- **Pipeline created per enriched lead** — The best top-line business metric here because it ties prioritization quality directly to pipeline value.
+- **% of leads converting** — This is the clearest bottom-line signal that the tool is helping reps target better leads and send better outreach. If conversion does not rise, the enrichment is not improving decision quality.
+- **Outreach volume** — This measures whether the workflow is helping the team work more leads, not slowing them down. If volume drops, the tool may be adding process overhead.
+- **% of leads contacted** — Volume alone can be misleading if reps send more touches to the same small set of leads. This tells you whether the team is actually covering more of the lead pool.
+- **Opportunities created per lead** — This is the quality check on top of conversion and activity. It shows whether the enriched workflow is producing more real pipeline per lead worked, not just more outreach.
 
-At the 60-day checkpoint, the review should answer three questions: are reps moving faster, are higher-scored leads converting better, and is the enriched workflow producing more real pipeline per lead? If not, the scoring model or workflow needs another iteration before broader operational dependency is added.
+At the 60-day checkpoint, the review should answer three questions: are more leads converting, is the team reaching more leads, and is the enriched workflow producing more opportunities per lead worked? If not, the scoring model or workflow needs another iteration before broader operational dependency is added.
 
 ### Summary Timeline
 
