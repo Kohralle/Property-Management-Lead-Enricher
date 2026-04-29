@@ -287,10 +287,10 @@ Four metrics at the 60-day checkpoint — two validating the tool, two on busine
 
 **Business outcomes:**
 
-- **Meetings booked per rep vs. baseline** — did the team's core activity metric go up at 60 days compared to the pre-enrichment period.
-- **Pipeline generated: heavy enrichment users vs. light users** — split reps by how much they use the tool over the same window. Same time period, same lead pool, enrichment usage is the only variable. This is how you attribute the improvement to the tool rather than seasonality.
+- **Meetings booked per rep vs. baseline** — the clearest signal that targeting improved. More leads converting to meetings means reps are spending time on the right companies and sending more relevant outreach. Compare the 60-day post-adoption period against the same rep's pre-adoption baseline.
+- **Pipeline generated per rep: 60 days pre-adoption vs. 60 days post-adoption** — each rep serves as their own control, which eliminates rep quality as a confound. Comparing heavy users against light users would just select the best reps and call them heavy users. Consistent improvement across the team at the point of adoption is the attributable signal.
 
-Together they tell a single story: reps are using it, the score is making the right calls, meetings went up, and pipeline went up — and the last metric shows it was the tool.
+Together they tell a single story: reps are using it, the score is making the right calls, more leads are converting to meetings because targeting improved, and pipeline went up — and the pre/post comparison shows it was the tool.
 
 ### Summary Timeline
 
