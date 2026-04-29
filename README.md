@@ -244,6 +244,70 @@ Together they give a salesperson the five-second read on a lead: what is this co
 5. Batch-enrich every lead without a result:
    `python manage.py enrich_all_leads`
 
+## Sales Org Rollout Plan
+
+### Phase 1 — Internal Validation (Weeks 1–2)
+
+Before any rep touches it, validate the scoring against reality. Pull 50–100 closed-won and closed-lost deals from the CRM, run them through the enrichment pipeline, and check whether the scores align with outcomes — did the A-tiers convert? Did the D-tiers go dark? This tells you whether the model is calibrated before reps form opinions based on bad scores. Also flag systematic failures: companies where Gemini returns unknown, addresses Census can't geocode, leads with no news coverage.
+
+**Deliverable:** a spreadsheet of historical leads with enrichment scores vs actual outcomes, plus a short writeup of where the model is confident and where it isn't.
+
+### Phase 2 — Pilot with 2–3 Reps (Weeks 3–6)
+
+Pick one SDR and one AE — detail-oriented people who will give honest feedback. Give them the tool alongside their normal workflow without replacing anything yet. Ask them to enrich every new lead before outreach, use the draft email as a starting point, and log whether the score felt right after they learned more about the company. Weekly 30-minute syncs. You're listening for: does the score match their gut after a call? Are the insights surfacing things they didn't know? Is the email draft saving time or creating more editing work?
+
+**Stakeholders:** Head of Sales for pilot sign-off, CRM owner to avoid data hygiene problems.
+
+### Phase 3 — Scoring Calibration (Weeks 5–7)
+
+Based on pilot feedback, adjust the model. Common things that need tuning at this stage: tier thresholds if reps say B-tier leads are actually converting well, company type weights if a certain type keeps surprising reps, and property context thresholds if the rent floor or renter share cutoffs don't match the markets EliseAI is targeting. Also assess email generation quality — are reps sending the draft mostly as-is, editing heavily, or ignoring it entirely?
+
+**Stakeholders:** RevOps for conversion data, Marketing for ICP alignment.
+
+### Phase 4 — Full Team Rollout (Month 2)
+
+Once pilot reps are using it consistently and scores feel right, roll out to the full SDR and AE team. Codify three process changes: enrichment is required before a lead enters a sequence; tier gates which sequence the lead enters (A-tier high-touch, D-tier lighter cadence or deprioritized); draft email is the starting point, not optional. Run a single 45-minute training session walking through what the score means, what the insights represent, and how to read the evidence panel.
+
+**Stakeholders:** Sales Ops to update the playbook, Head of Sales to communicate the process change.
+
+### Phase 5 — CRM Integration (Month 2–3)
+
+Enrichment data needs to live in the CRM to be durable. Start with a webhook that pushes score, tier, and key fields when an enrichment is created — this keeps the enrichment tool as the source of truth while making data visible to anyone in the CRM without opening a separate UI. Longer term, trigger enrichment automatically when a new lead is created.
+
+**Stakeholders:** Sales Ops or RevOps for CRM field setup, Engineering for the integration.
+
+### Phase 6 — Measuring Impact (Month 3+)
+
+Metrics to track: reply rate by tier, time to first outreach, email edit rate, and pipeline from enriched vs unenriched leads. Set a 60-day checkpoint. If A-tier reply rate is not meaningfully higher than D-tier, the scoring model needs rethinking. If reps are spending more time on enrichment than it saves, the workflow needs simplifying.
+
+### Summary Timeline
+
+| Week | Work |
+|---|---|
+| 1–2 | Score historical closed-won/lost deals, validate model |
+| 3–6 | Pilot with 2–3 reps, weekly feedback syncs |
+| 5–7 | Calibrate scoring thresholds based on pilot data |
+| 8 | Full team rollout and training |
+| 9–12 | CRM integration |
+| 12+ | 60-day metrics review, iterate |
+
+### Key Stakeholders
+
+| Stakeholder | Role |
+|---|---|
+| Head of Sales | Sponsor — sets expectation that enrichment is required |
+| Pilot reps | Primary feedback source during validation |
+| Sales Ops | Process documentation, CRM field setup, playbook update |
+| RevOps | Historical data pull, ongoing metrics tracking |
+| Marketing | ICP alignment — ensure scoring rewards the right company types |
+| Engineering | CRM webhook integration |
+
+## Future Work
+
+**LLM-generated research summary.** The pipeline currently surfaces raw enrichment data — company classification, news articles, Census figures — as separate panels. A useful next step would be a single Gemini call at the end of the pipeline that reads all resolved context and writes a short paragraph summarising what was found: what the company does, what market they operate in, what the recent news signal suggests, and why the score landed where it did. This would give a salesperson a coherent narrative to read in 10 seconds rather than having to piece together the panels themselves.
+
+**Scoring rebalance based on testing.** The current point values and thresholds were set based on first principles, not outcome data. Once the pipeline has been used on a meaningful volume of leads and some have progressed through the sales cycle, the weights should be revisited. If A-tier leads are not converting at a higher rate than B-tier, the tier thresholds or bucket weights need adjustment. The company type base scores in particular — the gap between large property manager (38) and owner-operator (30) — should be validated against what actually closes.
+
 ## Known Limitations
 
 - Company research can still fall back to `unknown` when Gemini grounding or response parsing fails, though those failures are now surfaced in `raw_enrichment._errors`.
