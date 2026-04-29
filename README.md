@@ -208,6 +208,20 @@ flowchart TD
     I --> K[Save to database]
 ```
 
+## Insights
+
+Each enrichment result includes five insight bullets shown at the top of the detail view. They are derived deterministically from the enrichment data — no LLM involved — so they are always present even when the email generation falls back.
+
+The five bullets and why these specifically:
+
+- **Type** — the single most important fact. Before reaching out, a salesperson needs to know whether this is a property manager, a broker, a vendor, or something unrelated. It anchors everything else in the review.
+- **Scale** — tells you the size of the conversation to expect. Large means a complex multi-property operation with budget authority. Small means you're probably talking to an owner who does everything themselves.
+- **Email domain** — a quick legitimacy signal. A corporate domain confirms the contact is reachable through their company and the company identity is verified. A free inbox (Gmail, Outlook, etc.) means more uncertainty about who you're actually dealing with.
+- **Local population** — market density context. A salesperson pitching into a dense urban market should frame the conversation differently than one pitching into a rural area.
+- **Median rent** — market quality signal. High rent means competitive leasing, high inquiry volume, and pressure to respond fast — the core ROI case for EliseAI.
+
+Together they give a salesperson the five-second read on a lead: what is this company, how big are they, is the contact legitimate, and what market pressure are they under.
+
 ## External APIs
 
 | API | Where to get a key | What it adds |
