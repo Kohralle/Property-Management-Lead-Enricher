@@ -95,7 +95,7 @@ flowchart TD
     A[Property address, city, state] --> B[Census geocoder]
     B --> C[Matched Census tract]
     C --> D[ACS 5-year API]
-    D --> E[Population and race]
+    D --> E[Population]
     D --> F[Income and poverty]
     D --> G[Rent, tenure, home value]
     E --> H[Property Context bucket]

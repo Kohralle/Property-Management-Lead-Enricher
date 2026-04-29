@@ -594,7 +594,7 @@ function MarketContextPanel({
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-2">
           <MetricGroup
             title="Housing"
             items={[
@@ -609,14 +609,6 @@ function MarketContextPanel({
               ['Median income', formatCurrency(economics?.median_household_income)],
               ['Poverty rate', formatMetricPercent(economics?.poverty_rate_pct)],
               ['Unemployment', formatMetricPercent(economics?.unemployment_rate_pct)],
-            ]}
-          />
-          <MetricGroup
-            title="Demographics"
-            items={[
-              ['Bachelor’s or higher', formatMetricPercent(demographics?.education?.bachelors_or_higher_pct)],
-              ['White alone', formatMetricPercent(demographics?.race_ethnicity?.white_alone_pct)],
-              ['Hispanic or Latino', formatMetricPercent(demographics?.race_ethnicity?.hispanic_or_latino_pct)],
             ]}
           />
         </div>
