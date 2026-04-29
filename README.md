@@ -248,9 +248,8 @@ flowchart LR
     A[1. Validate<br/>Historical leads] --> B[2. Pilot<br/>2-3 reps]
     B --> C[3. Tune<br/>Scoring and prompts]
     C --> B
-    C --> D[4. Expand<br/>Full sales team]
-    D --> E[5. Integrate<br/>CRM workflow]
-    E --> F[6. Measure<br/>Impact and iterate]
+    C --> D[4. Roll out<br/>Team + workflow]
+    D --> E[5. Measure<br/>Impact and iterate]
 ```
 
 ### Phase 1 — Internal Validation (Weeks 1–2)
@@ -271,31 +270,24 @@ Based on pilot feedback, adjust the model. Common things that need tuning at thi
 
 **Stakeholders:** RevOps for conversion data, Marketing for ICP alignment.
 
-### Phase 4 — Full Team Rollout (Month 2)
+### Phase 4 — Team Rollout and Workflow Integration (Month 2–3)
 
-Once pilot reps are using it consistently and scores feel right, roll out to the full SDR and AE team. Codify three process changes: enrichment is required before a lead enters a sequence; tier gates which sequence the lead enters (A-tier high-touch, D-tier lighter cadence or deprioritized); draft email is the starting point, not optional. Run a single 45-minute training session walking through what the score means, what the insights represent, and how to read the evidence panel.
+Once pilot reps are using it consistently and scores feel right, roll out to the full SDR and AE team and make the tool part of the workflow. Codify three process changes: enrichment is required before a lead enters a sequence; tier influences sequencing strategy and prioritization; draft email is the starting point, not optional. At the same time, push score, tier, and key enrichment fields into the CRM so the data is visible inside the system the team already lives in. Run a single 45-minute training session walking through what the score means, what the insights represent, and how to read the evidence panel.
 
-**Stakeholders:** Sales Ops to update the playbook, Head of Sales to communicate the process change.
+**Stakeholders:** Sales Ops to update the playbook and CRM fields, Head of Sales to communicate the process change, Engineering for the integration.
 
-### Phase 5 — CRM Integration (Month 2–3)
+### Phase 5 — Measuring Impact (Month 3+)
 
-Enrichment data needs to live in the CRM to be durable. Start with a webhook that pushes score, tier, and key fields when an enrichment is created — this keeps the enrichment tool as the source of truth while making data visible to anyone in the CRM without opening a separate UI. Longer term, trigger enrichment automatically when a new lead is created.
+The success criteria should stay focused on sales performance, not UI engagement. Use a 60-day checkpoint and measure the new workflow against the old one or against a comparable control group if possible.
 
-**Stakeholders:** Sales Ops or RevOps for CRM field setup, Engineering for the integration.
+The four metrics to track are:
 
-### Phase 6 — Measuring Impact (Month 3+)
+- **Lead-to-meeting conversion** — The clearest early signal that the tool is helping reps prioritize the right leads.
+- **Lead-to-opportunity conversion** — Shows whether enriched leads are actually turning into real pipeline, not just getting replies.
+- **Time to first outreach** — Measures whether the tool speeds up the sales motion instead of adding friction.
+- **Pipeline created per enriched lead** — The best top-line business metric here because it ties prioritization quality directly to pipeline value.
 
-Metrics to track: reply rate by tier, time to first outreach, email edit rate, and pipeline from enriched vs unenriched leads. Set a 60-day checkpoint. The key is to measure the tool against the old workflow, not in isolation.
-
-**How to measure it well:**
-
-- **Reply rate by tier** — Compare A, B, C, and D-tier reply rates over the same time window. The question is whether the score is actually separating stronger leads from weaker ones. If A-tier and D-tier leads perform the same, the model is not creating useful signal.
-- **Time to first outreach** — Measure the time from lead creation to first outbound touch before and after rollout. If reps are enriching leads but not moving faster, the workflow may be adding friction instead of removing it.
-- **Email edit rate** — Track whether reps send the draft mostly as-is, make light edits, or rewrite it completely. A high rewrite rate means the drafting step is not earning trust yet, even if the rest of the enrichment is useful.
-- **Pipeline creation from enriched vs unenriched leads** — Compare how often enriched leads turn into real opportunities versus leads that were handled without the tool. This is the clearest test of whether the enrichment is improving prioritization rather than just producing interesting research.
-- **Rep-rated usefulness** — Ask pilot users to score each enrichment quickly after use: helpful, neutral, or not useful. That gives qualitative signal on whether the UI, score, and evidence are helping real decisions.
-
-At the 60-day checkpoint, the review should answer three simple questions: are reps moving faster, are they trusting the output, and are higher-scored leads performing better downstream? If not, the scoring model or workflow needs another iteration before broader operational dependency is added.
+At the 60-day checkpoint, the review should answer three questions: are reps moving faster, are higher-scored leads converting better, and is the enriched workflow producing more real pipeline per lead? If not, the scoring model or workflow needs another iteration before broader operational dependency is added.
 
 ### Summary Timeline
 
@@ -304,8 +296,7 @@ At the 60-day checkpoint, the review should answer three simple questions: are r
 | 1–2 | Score historical closed-won/lost deals, validate model |
 | 3–6 | Pilot with 2–3 reps, weekly feedback syncs |
 | 5–7 | Calibrate scoring thresholds based on pilot data |
-| 8 | Full team rollout and training |
-| 9–12 | CRM integration |
+| 8–12 | Full team rollout, training, and CRM integration |
 | 12+ | 60-day metrics review, iterate |
 
 ### Key Stakeholders
