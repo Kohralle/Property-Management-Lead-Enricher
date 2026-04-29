@@ -40,3 +40,6 @@ node_modules/
 
 # macOS
 .DS_Store
+
+# Submission folder (local only)
+submission/
