@@ -247,6 +247,7 @@ The rollout should be phased: validate the scoring on historical outcomes first,
 flowchart LR
     A[1. Validate<br/>Historical leads] --> B[2. Pilot<br/>2-3 reps]
     B --> C[3. Tune<br/>Scoring and prompts]
+    C --> B
     C --> D[4. Expand<br/>Full sales team]
     D --> E[5. Integrate<br/>CRM workflow]
     E --> F[6. Measure<br/>Impact and iterate]
