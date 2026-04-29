@@ -103,10 +103,6 @@ flowchart TD
     G --> H
 ```
 
-## Weather
-
-Weather does not affect scoring. It gives the email generation model a timely, location-specific opening line so the outreach feels written today rather than templated. A cold email that opens with something grounded in the current moment reads differently than one that opens with "I wanted to reach out."
-
 ## Scoring Model
 
 The current model is a true 100-point deterministic score. No normalization step is applied after the bucket totals are computed.
