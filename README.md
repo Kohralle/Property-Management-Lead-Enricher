@@ -113,18 +113,18 @@ The current model is a true 100-point deterministic score. No normalization step
 
 | Bucket | Max Points | What It Measures |
 | --- | ---: | --- |
-| Company Fit | 52 | Grounded company classification: type, property-management relevance, multifamily relevance, scale, confidence adjustment |
-| News Activity | 18 | At least 3 relevant articles out of 10, or 30% if fewer than 10; plus growth-language signals |
-| Contact Quality | 12 | Whether the contact uses a corporate email domain instead of a free inbox |
-| Property Context | 18 | Tract renter share > 40%, local population > 4k, median gross rent > $1,500 |
+| Company Fit | 52 | Grounded company classification: type, PM relevance, multifamily relevance, scale, confidence adjustment |
+| News Activity | 18 | Recent relevant company coverage and growth signals |
+| Contact Quality | 12 | Whether the contact uses a corporate email domain |
+| Property Context | 18 | Tract renter share, population, and median rent thresholds |
 | **Total** | **100** | Sum of the four deterministic buckets |
 
 Tier thresholds:
 
-- `A`: 85-100
-- `B`: 65-84
-- `C`: 40-64
-- `D`: 0-39
+- `A`: 85–100
+- `B`: 65–84
+- `C`: 40–64
+- `D`: 0–39
 
 ```mermaid
 ---
@@ -141,6 +141,47 @@ flowchart LR
     F -->|40-64| I[Tier C]
     F -->|0-39| J[Tier D]
 ```
+
+### Company Fit (max 52)
+
+The largest bucket. Gemini classifies the company via live web search, and the result is converted into a deterministic score. The whole bucket is then multiplied by Gemini's confidence value (0.0–1.0) — if it found solid evidence the score passes through at full value; if it's guessing from thin information the score is discounted proportionally.
+
+**Company type** is the dominant signal, worth up to 38 points:
+
+| Type | Points | Reasoning |
+| --- | ---: | --- |
+| Large property manager | 38 | Ideal customer — high leasing volume, maintenance load, resident communication at scale |
+| Owner-operator | 30 | Manages their own properties; same operational problems, slightly smaller scale |
+| Small property manager | 27 | Right business, smaller footprint |
+| Property-specific entity | 18 | Single building LLC or similar — possible fit but limited scale |
+| Broker | 9 | Adjacent to property management but unlikely to be a direct buyer |
+| Vendor | 6 | Serves property managers but is not one |
+| Unknown | 6 | Could still be relevant — conservative non-zero rather than a hard zero |
+| Unrelated | 0 | Not in the industry |
+
+**Property management relevance bonus** (up to 8 pts) — how directly and primarily the company operates in property management. A company that manages 10,000 units scores high; one that manages a single building on the side scores low.
+
+**Multifamily relevance bonus** (up to 3 pts) — EliseAI is a multifamily product. Companies focused on single-family rentals or commercial real estate are a weaker fit even if they are property managers.
+
+**Scale signal bonus** (up to 3 pts) — larger operators have more leasing volume, maintenance tickets, and resident communication, giving EliseAI more surface area to help. Small operators have less operational pressure so the ROI case is weaker.
+
+### News Activity (max 18)
+
+**Recent relevant news (8 pts)** — fires if at least 30% of fetched articles (minimum 3 out of 10) actually mention the company by name. The threshold filters out generic real estate industry coverage that SerpAPI returns for any company in a busy market.
+
+**Growth signal (10 pts)** — fires only if relevant news exists and Gemini judged at least one article as containing a growth signal: acquisition, new development, expansion, or funding. A growing company is under operational pressure and actively evaluating new tools. Growth signal cannot fire without relevant news passing first.
+
+### Contact Quality (max 12)
+
+A single binary rule: does the contact use a corporate email domain rather than a free inbox (Gmail, Outlook, Yahoo, etc.)? A corporate email means the person is reachable through their company and the company identity is confirmed by the domain. Free inbox contacts are harder to verify and less likely to be the right decision-maker. Worth 12 points if corporate, 0 otherwise.
+
+### Property Context (max 18)
+
+Three binary rules worth 6 points each, all drawn from Census ACS 5-year tract-level data:
+
+- **Renter share > 40%** — EliseAI is built for rental operations. A mostly renter-occupied tract means real leasing volume, turnover, and maintenance traffic.
+- **Population > 4,000** — Very sparse tracts signal rural or low-density areas where operational volume is low and the ROI case for automation is weak.
+- **Median gross rent > $1,500** — Higher-rent markets are more competitive, with more prospect inquiries per unit and more pressure to respond fast.
 
 ## Output Generation
 

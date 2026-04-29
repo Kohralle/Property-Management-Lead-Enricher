@@ -197,7 +197,7 @@ export default function EnrichmentDetail({
 
               {showRules && (
                 <div className="mt-5 grid gap-4 lg:grid-cols-2">
-                  <RuleList title="Company Fit Hard" bucket={data.score_breakdown.company_fit_hard} maxPoints={52} />
+                  <RuleList title="Company Fit" bucket={data.score_breakdown.company_fit_hard} maxPoints={52} />
                   <RuleList title="Activity" bucket={data.score_breakdown.company_fit_activity} maxPoints={18} />
                   <RuleList title="Contact Quality" bucket={data.score_breakdown.contact_quality} maxPoints={12} />
                   <RuleList title="Market" bucket={data.score_breakdown.market_context} maxPoints={18} />
