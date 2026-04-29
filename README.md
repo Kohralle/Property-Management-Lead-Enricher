@@ -244,32 +244,12 @@ Together they give a salesperson the five-second read on a lead: what is this co
 The rollout should be phased: validate the scoring on historical outcomes first, test it with a small rep group, tune the weak spots, then widen access and connect it more deeply into CRM workflows.
 
 ```mermaid
-flowchart TD
-    A[Phase 1: Internal Validation] --> B[Historical closed-won / closed-lost leads]
-    B --> C[Check score calibration]
-    C --> D[Flag failures and weak spots]
-
-    D --> E[Phase 2: Pilot with 2-3 reps]
-    E --> F[Advisory use in normal workflow]
-    F --> G[Weekly feedback on score, evidence, and email draft]
-
-    G --> H[Phase 3: Scoring Calibration]
-    H --> I[Adjust thresholds]
-    H --> J[Tune prompts]
-    H --> K[Reduce noisy signals]
-
-    I --> L{Ready for wider use?}
-    J --> L
-    K --> L
-
-    L -- Yes --> M[Phase 4: Full Team Rollout]
-    L -- No --> H
-
-    M --> N[Required enrichment before outreach]
-    N --> O[Phase 5: CRM Integration]
-    O --> P[Push score, tier, and key fields into CRM]
-    P --> Q[Phase 6: Measure Impact]
-    Q --> R[Reply rate, edit rate, time saved, pipeline impact]
+flowchart LR
+    A[1. Validate<br/>Historical leads] --> B[2. Pilot<br/>2-3 reps]
+    B --> C[3. Tune<br/>Scoring and prompts]
+    C --> D[4. Expand<br/>Full sales team]
+    D --> E[5. Integrate<br/>CRM workflow]
+    E --> F[6. Measure<br/>Impact and iterate]
 ```
 
 ### Phase 1 — Internal Validation (Weeks 1–2)
