@@ -1,4 +1,4 @@
-# Property Management Lead Enricher
+# Property Management Lead Enricher for EliseAI
 
 This project takes a CRM lead, resolves what the company is, gathers company and property context, scores the lead on a deterministic 100-point model, and saves a usable outbound package: score, tier, supporting evidence, draft email, and concise insights. The goal is to turn a thin lead record into something a salesperson can review quickly without guessing what the company does or why it scored the way it did.
 
